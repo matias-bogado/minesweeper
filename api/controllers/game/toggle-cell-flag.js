@@ -1,12 +1,11 @@
 
 /**
- * game/flagCell.js
+ * game/toggle-cell-flag.js
  *
  * Flag a cell for a specific game.
  */
-module.exports = async function flagCell(req, res) {
-  console.log('OK')
-  const newStatus = await Game.flagCell(req.allParams());
+module.exports = async function toggleCellFlag(req, res) {
+  const game = await Game.toggleCellFlag(req.allParams());
 
-  return res.json({ ...newStatus  });
+  return res.json(game);
 };

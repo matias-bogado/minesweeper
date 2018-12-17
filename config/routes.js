@@ -20,8 +20,8 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-  'get /game': { view: 'pages/homepage' },
-
+  'PATCH /game/toggle-cell-flag': 'game/toggle-cell-flag',
+  'PATCH /game/reveal-cell': 'game/reveal-cell',
 
   /***************************************************************************
   *                                                                          *
