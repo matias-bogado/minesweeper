@@ -13,7 +13,7 @@ const persistConfig = {
   key: 'root',
   storage,
   stateReconciler: autoMergeLevel1,
-  whitelist: ['currentUser', 'gameList'],
+  whitelist: [],
 };
 
 const createClientStore = (initialState) => {

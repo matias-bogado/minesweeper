@@ -14,8 +14,7 @@ class NodeApiProvider {
 
   // TODO: use this method to retrieve current email
   getCurrentUserData() {
-    // return clientStore.getState().currentUser.data;
-    return {};
+    return clientStore.getState().currentUser.data || {};
   }
 
   getGameList(payload: GetGameListPayload): Promise<GetGameListResponse> {
@@ -30,7 +29,7 @@ class NodeApiProvider {
     };
 
     return this.axios.get('/game', requestConfig)
-      .then((response: AxiosResponse) => Promise.resolve(response))
+      .then((response: AxiosResponse) => Promise.resolve(response.data || null))
       .catch((error: AxiosError) => Promise.reject(error));
 
   }
@@ -48,7 +47,21 @@ class NodeApiProvider {
     };
 
     return this.axios.get('/game', requestConfig)
-      .then((response: AxiosResponse) => Promise.resolve(response))
+      .then((response: AxiosResponse) => Promise.resolve(response.data || null))
+      .catch((error: AxiosError) => Promise.reject(error));
+  }
+
+  createGame(payload: CreateGamePayload): Promise<CreateGameResponse> {
+    const currentUserData = this.getCurrentUserData();
+    const requestConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const body = { ...payload, email: currentUserData.email };
+
+    return this.axios.post('/game', body, requestConfig)
+      .then((response: AxiosResponse) => Promise.resolve(response.data || null))
       .catch((error: AxiosError) => Promise.reject(error));
   }
 }
@@ -64,6 +77,12 @@ export type GetGamePayload = {
 };
 
 export type GetGameResponse = any
+
+export type CreateGamePayload = {
+
+}
+
+export type CreateGameResponse = any;
 
 export type RevealCellPayload = {
   cellX: number;

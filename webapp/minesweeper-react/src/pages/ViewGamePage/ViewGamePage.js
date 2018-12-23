@@ -1,11 +1,24 @@
 // @flow
 import React, { Component } from 'react';
-import Link from 'react-router-dom/Link';
+import { connect } from 'react-redux';
+import withRouter from 'react-router-dom/withRouter';
 import { Col, Row } from 'antd';
 
-type Props = {};
+type Props = {
+  location: any;
+};
 
 class ViewGamePage extends Component<Props> {
+  constructor(props: Props) {
+    super(props);
+
+    console.log(props);
+  }
+
+  componentDidMount() {
+
+  }
+
   render() {
     return (
       <div className="view-game-page">
@@ -20,4 +33,4 @@ class ViewGamePage extends Component<Props> {
 }
 
 
-export default ViewGamePage;
+export default withRouter(ViewGamePage);
