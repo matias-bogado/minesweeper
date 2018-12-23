@@ -27,7 +27,7 @@ export type CurrentGameMapStateToProps = {
 }
 
 export type CurrentGameMapDispatchToProps = {
-  getcurrentGame: (payload: GetGamePayload) => void,
+  getCurrentGame: (payload: GetGamePayload) => void,
   currentGameReset: () => void,
 }
 

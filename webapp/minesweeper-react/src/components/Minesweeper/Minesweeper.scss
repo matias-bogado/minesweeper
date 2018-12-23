@@ -1,0 +1,66 @@
+.minesweeper {
+  width: 100%;
+  height: 50px;
+  background: #0c8da0;
+
+  &__board {
+    &-row {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  &-cell {
+    display: flex;
+    flex-grow: 0;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #001c20;
+    background: #e4f0f1;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+
+    &--with-flag {
+      cursor: default;
+    }
+
+    &--reveled {
+      cursor: default;
+    }
+
+    &--has-mine {
+      &:after {
+        content: '';
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #0c8da0;
+      }
+    }
+
+    &--adjacent-mines-1 {
+      color: #849c7d;
+    }
+
+    &--adjacent-mines-2 {
+      color: #d3b37f;
+    }
+
+    &--adjacent-mines-3 {
+      color: #d38d6a;
+    }
+
+    &--adjacent-mines-4 {
+      color: #d35653;
+    }
+
+    &--adjacent-mines-5,
+    &--adjacent-mines-7,
+    &--adjacent-mines-6,
+    &--adjacent-mines-8 {
+      color: #d31413;
+    }
+  }
+}

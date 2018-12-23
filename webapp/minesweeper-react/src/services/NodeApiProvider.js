@@ -42,11 +42,10 @@ class NodeApiProvider {
       },
       params: {
         email: currentUserData.email,
-        gameId: payload.gameId
       },
     };
 
-    return this.axios.get('/game', requestConfig)
+    return this.axios.get(`/game/${payload.gameId}`, requestConfig)
       .then((response: AxiosResponse) => Promise.resolve(response.data || null))
       .catch((error: AxiosError) => Promise.reject(error));
   }
@@ -66,23 +65,48 @@ class NodeApiProvider {
   }
 }
 
+export type Game = {
+  id: number;
+  name: string;
+  numberOfColumns: number;
+  numberOfMines: number;
+  numberOfRows: number;
+  ownerEmail: string;
+  status: 'LOST' | 'WON' | 'IN_PROGRESS';
+  cells: {
+    [key: string]: GameCell;
+  };
+  mines: string[];
+  createdAt: number;
+  updatedAt: number;
+};
+
+export type GameCell = {
+  hasMine: boolean;
+  isFlagged: boolean;
+  isVisible: boolean;
+  numberOfAdjacentMines: number;
+  x: number;
+  y: number;
+};
+
 export type GetGameListPayload = {
   email: string
 };
 
-export type GetGameListResponse = any
+export type GetGameListResponse = Game[]
 
 export type GetGamePayload = {
   gameId: number;
 };
 
-export type GetGameResponse = any
+export type GetGameResponse = Game
 
 export type CreateGamePayload = {
 
 }
 
-export type CreateGameResponse = any;
+export type CreateGameResponse = Game;
 
 export type RevealCellPayload = {
   cellX: number;
@@ -90,7 +114,7 @@ export type RevealCellPayload = {
   gameId: number;
 };
 
-export type RevealCellResponse = any
+export type RevealCellResponse = Game
 
 export type ToggleFlagCellPayload = {
   cellX: number;
@@ -98,7 +122,7 @@ export type ToggleFlagCellPayload = {
   gameId: number;
 };
 
-export type ToggleFlagCellResponse = any
+export type ToggleFlagCellResponse = Game
 
 export default NodeApiProvider;
 export const instance = new NodeApiProvider();
