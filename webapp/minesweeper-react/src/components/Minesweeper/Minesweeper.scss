@@ -1,7 +1,15 @@
+$cell-bg: #bd8d4d;
+$cell-bg-2: #9f7545;
+$cell-reveled-bg: rgba(29, 143, 51, 0.15);
+$cell-reveled-bg-2: rgba(29, 143, 51, 0.25);
+$cell-has-mine-bg: rgba(211, 86, 83, 0.25);
+$cell-has-mine-bg-2: rgba(211, 86, 83, 0.15);
+
 .minesweeper {
   width: 100%;
-  height: 50px;
-  background: #0c8da0;
+  display: flex;
+  background: #fff;
+  justify-content: center;
 
   &__board {
     &-row {
@@ -15,11 +23,25 @@
     flex-grow: 0;
     width: 35px;
     height: 35px;
-    border: 1px solid #001c20;
-    background: #e4f0f1;
+    background: $cell-bg;
     cursor: pointer;
     justify-content: center;
     align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+
+    &--inverted-background,
+    &:nth-child(2n) {
+      background: $cell-bg-2;
+    }
+
+    &--inverted-background:nth-child(2n) {
+      background: $cell-bg;
+    }
+
+    &:hover {
+      opacity: .9;
+    }
 
     &--with-flag {
       cursor: default;
@@ -27,6 +49,20 @@
 
     &--reveled {
       cursor: default;
+      background: $cell-reveled-bg;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &--reveled.minesweeper-cell--inverted-background,
+    &--reveled:nth-child(2n) {
+      background: $cell-reveled-bg-2;
+    }
+
+    &--reveled.minesweeper-cell--inverted-background:nth-child(2n) {
+      background: $cell-reveled-bg;
     }
 
     &--has-mine {
@@ -36,8 +72,21 @@
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background: #0c8da0;
+        background: #d35653;
       }
+    }
+
+    &--has-mine.minesweeper-cell--reveled {
+      background: $cell-has-mine-bg;
+    }
+
+    &--has-mine.minesweeper-cell--reveled.minesweeper-cell--inverted-background,
+    &--has-mine.minesweeper-cell--reveled:nth-child(2n) {
+      background: $cell-has-mine-bg-2;
+    }
+
+    &--has-mine.minesweeper-cell--reveled.minesweeper-cell--inverted-background:nth-child(2n) {
+      background: $cell-has-mine-bg;
     }
 
     &--adjacent-mines-1 {

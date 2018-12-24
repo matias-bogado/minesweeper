@@ -72,7 +72,7 @@ export type Game = {
   numberOfMines: number;
   numberOfRows: number;
   ownerEmail: string;
-  status: 'LOST' | 'WON' | 'IN_PROGRESS';
+  status: GameStatus;
   cells: {
     [key: string]: GameCell;
   };
@@ -89,6 +89,8 @@ export type GameCell = {
   x: number;
   y: number;
 };
+
+export type GameStatus = 'LOST' | 'WON' | 'IN_PROGRESS';
 
 export type GetGameListPayload = {
   email: string

@@ -15,6 +15,7 @@ type Props = CurrentGameMapDispatchToProps & CurrentGameMapStateToProps & {
 };
 
 class ViewGamePage extends Component<Props> {
+  //TODO: validate current email with game id
   constructor(props: Props) {
     super(props);
 

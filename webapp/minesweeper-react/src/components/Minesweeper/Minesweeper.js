@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import type {Game, GameCell} from "../../services/NodeApiProvider";
+import type {Game, GameCell, GameStatus} from "../../services/NodeApiProvider";
 import './Minesweeper.scss';
 
 type Props = {
@@ -40,7 +40,15 @@ class Minesweeper extends Component<Props> {
 
     for (let x = 1; x <= numberOfColumns; x += 1) {
       const cellPosition = `x${x}y${y}`;
-      gameCells.push(<MinesweeperCell key={cellPosition} cell={cells[cellPosition]} onClick={this.handleCellClick} />);
+      gameCells.push(
+        <MinesweeperCell
+          key={cellPosition}
+          cell={cells[cellPosition]}
+          onClick={this.handleCellClick}
+          invertedBackground={y % 2 === 0}
+          gameStatus={this.props.game.status}
+        />
+      );
     }
 
     return gameCells;
@@ -53,17 +61,22 @@ class Minesweeper extends Component<Props> {
 
 type MinesweeperCellProps = {
   cell: GameCell;
-  onClick: (cell: GameCell) => void
+  onClick: (cell: GameCell) => void;
+  invertedBackground: boolean;
+  gameStatus: GameStatus;
 }
 
 const MinesweeperCell = (props: MinesweeperCellProps) => {
-  const { cell, onClick } = props;
-  const { x, y, hasMine, isVisible, isFlagged, numberOfAdjacentMines } = cell;
+  const { cell, onClick, invertedBackground, gameStatus } = props;
+  const { hasMine, isVisible, isFlagged, numberOfAdjacentMines } = cell;
+  const isReveled =  isVisible || (hasMine && gameStatus === 'LOST');
+
   return (
-    <div key={x} onClick={() => onClick(cell)} className={classNames({
+    <div onClick={() => onClick(cell)} className={classNames({
       'minesweeper-cell': true,
-      'minesweeper-cell--has-mine': hasMine && isVisible,
-      'minesweeper-cell--reveled': isVisible,
+      'minesweeper-cell--inverted-background': invertedBackground,
+      'minesweeper-cell--has-mine': hasMine && isReveled,
+      'minesweeper-cell--reveled': isReveled,
       'minesweeper-cell--flagged': isFlagged,
       [`minesweeper-cell--adjacent-mines-${numberOfAdjacentMines}`]: true
     })}>
