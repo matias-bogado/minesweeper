@@ -5,6 +5,7 @@ import {
   CURRENT_GAME_LOADING,
   CURRENT_GAME_RESET,
   CURRENT_GAME_SUCCESS,
+  CURRENT_GAME_SET,
 } from './currentGame.constants';
 import { instance as nodeApiProvider } from '../../../services/NodeApiProvider';
 import type { GetGamePayload } from "../../../services/NodeApiProvider";
@@ -16,6 +17,8 @@ export const currentGameLoading = createAction(CURRENT_GAME_LOADING);
 export const currentGameSuccess = createAction(CURRENT_GAME_SUCCESS);
 
 export const currentGameReset = createAction(CURRENT_GAME_RESET);
+
+export const currentGameSet = createAction(CURRENT_GAME_SET);
 
 export const getCurrentGame = (payload: GetGamePayload) => {
   return async (dispatch: Function) => {

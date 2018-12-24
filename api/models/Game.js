@@ -102,6 +102,7 @@ module.exports = {
 
   toggleCellFlag: async function (opts) {
     const { gameId, cellX, cellY } = opts;
+
     const game = await Game.getGameById({ id: gameId, throwError: true });
 
     if (game.status !== 'IN_PROGRESS') {
@@ -116,14 +117,14 @@ module.exports = {
 
     cell.isFlagged = !cell.isFlagged;
 
-    await Game.update({ id: gameId })
+    const updatedGame = await Game.update({ id: gameId })
       .set({
         status: game.status,
         cells: game.cells
       })
       .fetch();
 
-    return { gameId: game.id, newStatus: game.status, isFlagged: cell.isFlagged, cellX, cellY };
+    return updatedGame[0];
   },
 
   revealCell: async function (opts) {
@@ -158,12 +159,14 @@ module.exports = {
       }
     }
 
-    return await Game.update({ id: gameId })
+    const updatedGame = await Game.update({ id: gameId })
       .set({
         status: game.status,
         cells: game.cells
       })
       .fetch();
+
+    return updatedGame[0];
   }
 };
 

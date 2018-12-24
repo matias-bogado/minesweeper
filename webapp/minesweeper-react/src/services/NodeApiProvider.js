@@ -63,6 +63,30 @@ class NodeApiProvider {
       .then((response: AxiosResponse) => Promise.resolve(response.data || null))
       .catch((error: AxiosError) => Promise.reject(error));
   }
+
+  revealCell(payload: RevealCellPayload): Promise<RevealCellResponse> {
+    const requestConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    return this.axios.patch('/game/reveal-cell', payload, requestConfig)
+      .then((response: AxiosResponse) => Promise.resolve(response.data || null))
+      .catch((error: AxiosError) => Promise.reject(error));
+  }
+
+  toggleFlagCell(payload: ToggleFlagCellPayload): Promise<ToggleFlagCellResponse> {
+    const requestConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    return this.axios.patch('/game/toggle-cell-flag', payload, requestConfig)
+      .then((response: AxiosResponse) => Promise.resolve(response.data || null))
+      .catch((error: AxiosError) => Promise.reject(error));
+  }
 }
 
 export type Game = {
