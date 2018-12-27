@@ -16,6 +16,7 @@ import type {
 } from "../../redux/modules/gameList/gameList.containers";
 import './HomePage.scss';
 import CreateGameModal from "../../components/CreateGameModal/CreateGameModal";
+import classNames from "classnames";
 
 const Search = Input.Search;
 
@@ -108,11 +109,27 @@ class HomePage extends Component<Props, State> {
 }
 
 const ListItemTitle = (props: { gameName: string; gameStatus: GameStatus, gameId: number }) => {
+  const { gameStatus } = props;
   return (
     <Link to={URL_VIEW_GAME_PAGE.replace(':gameId', props.gameId)}>
-      <h4>{props.gameName} <span>{props.gameStatus}</span></h4>
+      <h4>{props.gameName} - &nbsp;
+        <span className={classNames({
+          'home-page__game-status': true,
+          'home-page__game-status--in-progress': gameStatus === 'IN_PROGRESS',
+          'home-page__game-status--won': gameStatus === 'WON',
+          'home-page__game-status--lost': gameStatus === 'LOST'
+        })}>
+          {gameStatusText[gameStatus]}
+        </span>
+      </h4>
     </Link>
   )
+};
+
+const gameStatusText = {
+  IN_PROGRESS: 'In progress',
+  WON: 'Won',
+  LOST: 'Lost'
 };
 
 // TODO: circle with bg color: yellow/green/red

@@ -48,13 +48,10 @@ class ViewGamePage extends Component<Props> {
     return (
       <Row>
         <Col span={12} offset={6}>
-          <h3>Play.</h3>
-        </Col>
-        <Col span={12} offset={6}>
           <Minesweeper game={this.props.currentGameData}/>
         </Col>
       </Row>
-    )
+    );
   }
 }
 

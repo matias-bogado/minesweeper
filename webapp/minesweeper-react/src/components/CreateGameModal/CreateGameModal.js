@@ -28,26 +28,6 @@ type State = {
   formErrors: any;
 }
 
-const validationSchema = yup.object().shape({
-  email: yup.string().required('An email is required').email('This should be a valid email'),
-  name: yup.string().required('A name for this game is required'),
-  rows: yup
-    .number()
-    .required('Define a number of rows to play')
-    .min(5, 'Min row number is 5')
-    .max(50, 'Max row number is 50'),
-  columns: yup
-    .number()
-    .required('Define a number of columns to play')
-    .min(5, 'Min column number is 5')
-    .max(50, 'Max column number is 50'),
-  mines: yup
-    .number()
-    .required('Define a number of mines to play')
-    .min(5, 'Min mines number is 5')
-    .max(100, 'Max mines number is 100')
-});
-
 class CreateGameModal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -155,14 +135,40 @@ class CreateGameModal extends Component<Props, State> {
   }
 
   getInputProps(inputName: string) {
-    console.log(inputName, this.state.formValues[inputName])
     return {
       className: this.state.formTouched[inputName] && this.state.formErrors[inputName] ? 'input--has-error' : '',
       placeholder: '',
       value: this.state.formValues[inputName],
       onChange: e => this.handleInputChange(e, inputName),
-      onBlur: () => this.handleInputTouched(inputName)
+      onBlur: () => this.evaluateInputErrors(inputName)
     }
+  }
+
+  getValidationSchema() {
+    const { formValues } = this.state;
+    const { rows, columns } = formValues;
+    const numberOfCells = rows * columns;
+    const maxMines = numberOfCells <= 100 ? numberOfCells - 1 : 100;
+
+    return yup.object().shape({
+      email: yup.string().required('An email is required').email('This should be a valid email'),
+      name: yup.string().required('A name for this game is required'),
+      rows: yup
+        .number()
+        .required('Define a number of rows to play')
+        .min(5, 'Min row number is 5')
+        .max(50, 'Max row number is 50'),
+      columns: yup
+        .number()
+        .required('Define a number of columns to play')
+        .min(5, 'Min column number is 5')
+        .max(50, 'Max column number is 50'),
+      mines: yup
+        .number()
+        .required('Define a number of mines to play')
+        .min(10, 'Min mines number is 10')
+        .max(maxMines, `Max mines number is ${numberOfCells}`)
+    });
   }
 
   handleInputChange = (event: any, inputName: string) => {
@@ -172,26 +178,17 @@ class CreateGameModal extends Component<Props, State> {
     }));
   };
 
-  handleInputTouched = (inputName: string) => {
-    this.setState((prevState: State) => {
-      return {
-        formTouched: {
-          ...prevState.formTouched,
-          [inputName]: true
-        }
-      }
-    }, () => {
-      this.evaluateInputErrors(inputName);
-    });
-  };
-
   evaluateInputErrors(inputName: string) {
-    validationSchema.validateAt(inputName, this.state.formValues)
+    this.getValidationSchema().validateAt(inputName, this.state.formValues)
       .then(() => {
         this.setState((prevState: State) => ({
           formErrors: {
             ...prevState.formErrors,
             [inputName]: ''
+          },
+          formTouched: {
+            ...prevState.formTouched,
+            [inputName]: true
           }
         }));
       })
@@ -203,14 +200,24 @@ class CreateGameModal extends Component<Props, State> {
             formErrors: {
               ...prevState.formErrors,
               [inputName]: errors[0]
+            },
+            formTouched: {
+              ...prevState.formTouched,
+              [inputName]: true
             }
           }));
         }
       })
   }
 
+  evaluateAllInputs() {
+    Object.keys(this.state.formValues).forEach(inputName => this.evaluateInputErrors(inputName));
+  }
+
   handleCreateGame = () => {
-    if (validationSchema.isValidSync(this.state.formValues)) {
+    this.evaluateAllInputs();
+
+    if (this.getValidationSchema().isValidSync(this.state.formValues)) {
       const { formValues } = this.state;
 
       this.props.currentUserSetEmail({ email: formValues.email });

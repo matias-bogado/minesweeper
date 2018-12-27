@@ -2,4 +2,23 @@
   &__create-button {
     margin: 20px 0;
   }
+
+  &__game-status {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+
+    &--in-progress {
+      color: #d3ac37;
+    }
+
+    &--won {
+      color: #40a830;
+    }
+
+    &--lost {
+      color: #ae3033;
+    }
+  }
 }

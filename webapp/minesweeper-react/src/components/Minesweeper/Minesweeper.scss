@@ -10,6 +10,7 @@ $cell-has-mine-bg-2: rgba(211, 86, 83, 0.15);
   display: flex;
   background: #fff;
   justify-content: center;
+  flex-direction: column;
 
   &__board {
     &-row {
@@ -110,6 +111,25 @@ $cell-has-mine-bg-2: rgba(211, 86, 83, 0.15);
     &--adjacent-mines-6,
     &--adjacent-mines-8 {
       color: #d31413;
+    }
+  }
+
+  &__game-status {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+
+    &--in-progress {
+      color: #d3ac37;
+    }
+
+    &--won {
+      color: #40a830;
+    }
+
+    &--lost {
+      color: #ae3033;
     }
   }
 }

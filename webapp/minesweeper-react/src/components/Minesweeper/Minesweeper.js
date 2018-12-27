@@ -20,16 +20,31 @@ type Props = ToggleFlagCellMapDispatchToProps & ToggleFlagCellMapStateToProps &
   game: Game
 }
 
+const gameStatus = {
+  IN_PROGRESS: 'Game in progress...',
+  WON: 'You won!',
+  LOST: 'You lost :('
+}
+
 class Minesweeper extends Component<Props> {
   constructor(props: Props) {
     super(props);
   }
 
   render() {
-    return this.props.game ? (
+    const { game } = this.props;
+    return game ? (
       <div className="minesweeper">
         <div className="minesweeper__board">
           {this.renderRows()}
+        </div>
+        <div className={classNames({
+          'minesweeper__game-status': true,
+          'minesweeper__game-status--in-progress': game.status === 'IN_PROGRESS',
+          'minesweeper__game-status--won': game.status === 'WON',
+          'minesweeper__game-status--lost': game.status === 'LOST'
+        })}>
+          {gameStatus[game.status]}
         </div>
       </div>
     ) : null;
