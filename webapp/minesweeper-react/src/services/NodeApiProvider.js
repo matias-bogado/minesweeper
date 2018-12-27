@@ -4,7 +4,7 @@ import { clientStore } from '../redux/clientStore';
 
 class NodeApiProvider {
   axios: Axios;
-  host: string = process.env.API_HOST || 'http://localhost:1337';
+  host: string = process.env.REACT_APP_API_HOST || 'http://localhost:1337';
 
   constructor() {
     this.axios = Axios.create({});

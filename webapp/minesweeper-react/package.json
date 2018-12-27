@@ -7,6 +7,7 @@
     "axios": "^0.18.0",
     "bootstrap": "4",
     "classnames": "^2.2.6",
+    "express": "^4.16.4",
     "flow-bin": "^0.89.0",
     "node-sass": "^4.11.0",
     "query-string": "^6.2.0",
@@ -28,6 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "prod": "node prod-server.js",
     "flow": "flow"
   },
   "eslintConfig": {
