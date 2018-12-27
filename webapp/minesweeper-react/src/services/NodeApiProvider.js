@@ -14,7 +14,7 @@ class NodeApiProvider {
 
   // TODO: use this method to retrieve current email
   getCurrentUserData() {
-    return clientStore.getState().currentUser.data || {};
+    return clientStore.getState().currentUser || {};
   }
 
   getGameList(payload: GetGameListPayload): Promise<GetGameListResponse> {
@@ -24,7 +24,7 @@ class NodeApiProvider {
         'Content-Type': 'application/json',
       },
       params: {
-        email: currentUserData.email,
+        ownerEmail: currentUserData.email,
       },
     };
 
@@ -51,13 +51,12 @@ class NodeApiProvider {
   }
 
   createGame(payload: CreateGamePayload): Promise<CreateGameResponse> {
-    const currentUserData = this.getCurrentUserData();
     const requestConfig = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
-    const body = { ...payload, email: currentUserData.email };
+    const body = { ...payload };
 
     return this.axios.post('/game', body, requestConfig)
       .then((response: AxiosResponse) => Promise.resolve(response.data || null))
@@ -129,7 +128,11 @@ export type GetGamePayload = {
 export type GetGameResponse = Game
 
 export type CreateGamePayload = {
-
+  ownerEmail: string;
+  name: string;
+  numberOfColumns: number;
+  numberOfMines: number;
+  numberOfRows: number;
 }
 
 export type CreateGameResponse = Game;

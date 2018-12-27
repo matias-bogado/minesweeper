@@ -99,7 +99,7 @@ class HomePage extends Component<Props, State> {
 
   handleSearch = (value: string) => {
     this.props.currentUserSetEmail({ email: value });
-    this.props.getGameList({ email: value });
+    this.props.getGameList();
   };
 
   toggleCreateGameModalState = () => {
