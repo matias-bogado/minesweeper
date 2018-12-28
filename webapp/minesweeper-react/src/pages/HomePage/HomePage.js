@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Link from 'react-router-dom/Link';
+import * as yup from 'yup';
 import { Col, Row, Input, List, Button } from 'antd';
 import { URL_VIEW_GAME_PAGE } from "../../constants/urls";
 import currentUser from "../../redux/modules/currentUser/currentUser.containers";
@@ -14,9 +15,10 @@ import type {
   GameListMapDispatchToProps,
   GameListMapStateToProps
 } from "../../redux/modules/gameList/gameList.containers";
-import './HomePage.scss';
 import CreateGameModal from "../../components/CreateGameModal/CreateGameModal";
 import classNames from "classnames";
+import InputError from "../../components/InputError/InputError";
+import './HomePage.scss';
 
 const Search = Input.Search;
 
@@ -27,6 +29,7 @@ type GameStatus = 'IN_PROGRESS' | 'WON' | 'LOST';
 
 type State = {
   showCreateGameModal: boolean;
+  searchHasErrors: boolean;
 }
 
 class HomePage extends Component<Props, State> {
@@ -34,7 +37,8 @@ class HomePage extends Component<Props, State> {
     super(props);
 
     this.state = {
-      showCreateGameModal: false
+      showCreateGameModal: false,
+      searchHasErrors: false
     };
   }
 
@@ -54,11 +58,15 @@ class HomePage extends Component<Props, State> {
           <Col span={12} offset={6}>
             <h3>Start a new game or resume a previous one.</h3>
             <Search
+              className={this.state.searchHasErrors ? 'input--has-errors' : ''}
               placeholder="Enter your email"
               onSearch={this.handleSearch}
               size="large"
               enterButton="Lookup for games!"
             />
+            {this.state.searchHasErrors ?
+              <InputError error="Please enter a valid email and hit 'Search' again" /> : null
+            }
           </Col>
         </Row>
         <Row>
@@ -99,8 +107,13 @@ class HomePage extends Component<Props, State> {
   }
 
   handleSearch = (value: string) => {
-    this.props.currentUserSetEmail({ email: value });
-    this.props.getGameList();
+    if (yup.string().required().email().isValidSync(value)) {
+      this.setState(() => ({ searchHasErrors: false }));
+      this.props.currentUserSetEmail({ email: value });
+      this.props.getGameList();
+    } else {
+      this.setState(() => ({ searchHasErrors: true }));
+    }
   };
 
   toggleCreateGameModalState = () => {

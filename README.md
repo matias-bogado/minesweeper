@@ -35,5 +35,7 @@ Due some lack of time various things are pending, here is a list of what I could
 but several parts of the layout could be improved
 - A real authentication. I'm using a veeery basic filter (an email) to get a game list from a particular user, 
 instead of real credentials.
+- Add a delete button for removing completed games.
 - Part of the game logic might be replicated on the UI side, the game actions could directly affect the store state to obtain a smooth game experience.
 - Improve typing.
+- etc.
