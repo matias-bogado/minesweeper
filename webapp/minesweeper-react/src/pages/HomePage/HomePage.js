@@ -40,6 +40,8 @@ class HomePage extends Component<Props, State> {
       showCreateGameModal: false,
       searchHasErrors: false
     };
+
+    this.props.gameListReset();
   }
 
   componentDidUpdate(prevProps: Props) {

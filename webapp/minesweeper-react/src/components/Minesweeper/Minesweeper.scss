@@ -11,6 +11,7 @@ $cell-has-mine-bg-2: rgba(211, 86, 83, 0.15);
   background: #fff;
   justify-content: center;
   flex-direction: column;
+  position: relative;
 
   &__board {
     &-row {
@@ -131,5 +132,11 @@ $cell-has-mine-bg-2: rgba(211, 86, 83, 0.15);
     &--lost {
       color: #ae3033;
     }
+  }
+
+  .spin {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }

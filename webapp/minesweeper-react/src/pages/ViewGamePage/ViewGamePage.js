@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import withRouter from 'react-router-dom/withRouter';
-import { Col, Row, Spin } from 'antd';
+import { Col, Row, Spin, message } from 'antd';
 import currentGame from "../../redux/modules/currentGame/currentGame.containers";
 import type {
   CurrentGameMapDispatchToProps,
@@ -24,6 +24,12 @@ class ViewGamePage extends Component<Props> {
 
   componentDidMount() {
     this.props.getCurrentGame({ gameId: this.props.match.params.gameId });
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (!prevProps.currentGameError && this.props.currentGameError) {
+      message.error('Unable to find the given game', 3);
+    }
   }
 
   render() {

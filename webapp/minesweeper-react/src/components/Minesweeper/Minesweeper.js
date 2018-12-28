@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Spin } from 'antd';
 import classNames from 'classnames';
 import type {Game, GameCell, GameStatus} from "../../services/NodeApiProvider";
 import toggleFlagCell from "../../redux/modules/toggleFlagCell/toggleFlagCell.containers";
@@ -46,6 +47,11 @@ class Minesweeper extends Component<Props> {
         })}>
           {gameStatus[game.status]}
         </div>
+        {this.isLoading() ? (
+          <div className="minesweeper__spin">
+            <Spin size="small" />
+          </div>
+        ) : null}
       </div>
     ) : null;
   }
@@ -88,7 +94,7 @@ class Minesweeper extends Component<Props> {
   handleCellClick = (event: any, cell: GameCell) => {
     event.preventDefault();
 
-    if (this.props.game.status === 'IN_PROGRESS' && !cell.isVisible) {
+    if (this.props.game.status === 'IN_PROGRESS' && !cell.isVisible && !this.isLoading()) {
       const payload = { gameId: this.props.game.id, cellX: cell.x, cellY: cell.y };
 
       if (event.button === 0) {
@@ -97,6 +103,10 @@ class Minesweeper extends Component<Props> {
         this.props.toggleFlagCell(payload);
       }
     }
+  }
+
+  isLoading() {
+    return this.props.revealCellIsLoading || this.props.toggleFlagCellIsLoading;
   }
 }
 
